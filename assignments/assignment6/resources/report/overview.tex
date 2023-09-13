@@ -1,0 +1,46 @@
+%! Author = alan
+%! Date = 4/21/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    In this assignment, you will implement \var{$k$}-means clustering and use it to
+    construct a multi-label classifier to determine the variety of wheat.
+
+    For the dataset, we use ``seeds`` dataset from the machine learning depository at UCI: \par
+    \url{https://archive.ics.uci.edu/ml/datasets/seeds}.
+
+    \textbf{Dataset Description: } From the website: ``\dots The examined group
+    comprised kernels belonging to three different varieties of wheat: Kama,
+    Rosa and Canadian, 70 elements each, randomly selected for the experiment\dots``
+
+    There are 7 (continuous) features: \var{$F=\{f_1,\dots,f_7\}$} and a class label
+    \var{$L$} (Kama: 1, Rosa: 2, Canadian: 3).
+
+    \begin{enumerate}
+        \item \var{$f_1$}: area \var{$A$}
+        \item \var{$f_2$}: perimeter \var{$P$}
+        \item \var{$f_3$}: compactness \var{$C = 4\pi A/P^2$}
+        \item \var{$f_4$}: length of kernel
+        \item \var{$f_5$}: width of kernel
+        \item \var{$f_6$}: asymmetry coefficient
+        \item \var{$f_7$}: length of kernel groove
+        \item \var{$L$}: class (Kama: 1, Rosa: 2, Canadian: 3)
+    \end{enumerate}
+
+    For the first question, you will choose 2 class labels as follows.
+    Take the last digit in your BUID and divide it by 3.
+    Choose the following 2 classes depending on the remainder \var{$R$}:
+
+    \begin{enumerate}
+        \item \var{$R=0$}: class \var{$L=1$} (negative) and \var{$L=2$} (positive).
+        \item \var{$R=1$}: class \var{$L=2$} (negative) and \var{$L=3$} (positive).
+        \item \var{$R=2$}: class \var{$L=1$} (negative) and \var{$L=3$} (positive).
+    \end{enumerate}
+
+    \newpage
+
+\end{document}

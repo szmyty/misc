@@ -1,0 +1,2 @@
+class TestProject:
+    pass

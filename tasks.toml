@@ -1,0 +1,174 @@
+[tool.poe.tasks.greet]
+help = "Greet the user."
+cmd = "echo Hello $USER!"
+
+[tool.poe.tasks.isort]
+help = "Run isort."
+cmd = "isort ${root_dir} --dont-follow-links"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.black]
+help = "Run black."
+cmd = "black ${root_dir}"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.pylic]
+help = "Check licenses."
+cmd = "pylic check --allow-extra-safe-licenses --allow-extra-unused-packages"
+
+[tool.poe.tasks.format]
+help = "Run formatting."
+sequence = ["isort ${root_dir}", "black ${root_dir}"]
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+ignore_fail = true
+
+[tool.poe.tasks.packages]
+help = "List the project packages."
+cmd = "poetry show --latest"
+
+[tool.poe.tasks.bandit] # https://github.com/PyCQA/bandit
+help = "Run Bandit security checks."
+cmd = "bandit --ini .bandit --quiet"
+
+[tool.poe.tasks.pyupgrade] # https://github.com/asottile/pyupgrade
+help = "Run pyupgrade."
+cmd = "pyupgrade **/*.py"
+
+[tool.poe.tasks.flynt] # https://github.com/ikamensh/flynt
+help = "Run flynt."
+cmd = "flynt ${root_dir}"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.mypy] # https://github.com/python/mypy
+help = "Run mypy type checking."
+cmd = "mypy ${root_dir} --enable-incomplete-feature=Unpack"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.flake8] # https://github.com/PyCQA/flake8
+help = "Run flake8 linter."
+cmd = "flake8 ${root_dir} --color always --output-file=.cache/.flake8_cache/flake8.txt"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.pydocstyle] # https://github.com/PyCQA/pydocstyle
+help = "Run pydocstyle linter."
+cmd = "pydocstyle ${root_dir} --config pyproject.toml"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.pylint] # https://github.com/PyCQA/pylint
+help = "Run pylint linter."
+cmd = "pylint --rcfile .pylintrc --recursive=y ${root_dir}"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.ruff] # https://github.com/charliermarsh/ruff
+help = "Run ruff linter."
+cmd = "ruff check ${root_dir}"
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+
+[tool.poe.tasks.lint]
+help = "Run all linting tools."
+sequence = [
+    "format ${root_dir}",
+    "mypy ${root_dir}",
+    "flake8 ${root_dir}",
+    "pylint ${root_dir}",
+    "pydocstyle ${root_dir}",
+    "ruff ${root_dir}",
+    "bandit",
+    "pylic"
+]
+args = [{ name = "root_dir", positional = true, multiple = false, default = "." }]
+ignore_fail = true
+
+[tool.poe.tasks.coverage]
+help = "Run coverage"
+cmd = "coverage run --source=${source_dir} -m pytest ${test_dir}"
+args = [
+    { name = "source_dir", positional = true, multiple = false, default = "." },
+    { name = "test_dir", positional = true, multiple = false, default = "." }
+]
+
+[tool.poe.tasks.jupyter_install]
+help = "Install jupyter kernelspec for project."
+cmd = "poetry jupyter install"
+
+[tool.poe.tasks.jupyter_build]
+help = "Build jupyter lab for project."
+cmd = "poetry run jupyter lab build"
+
+[tool.poe.tasks.jupyter_extensions]
+help = "Install jupyter lab extensions for project."
+shell = """
+poetry env info;
+poetry install --only jupyter;
+poetry run jupyter labextension enable jupyterlab/debugger;
+"""
+
+[tool.poe.tasks.lab]
+help = "Starts a Jupyter lab server."
+cmd = "poetry run jupyter lab --config ./config/jupyter_lab_config.py"
+
+[tool.poe.tasks.jupyter]
+help = "Starts a Jupyter lab server with all dependencies."
+sequence = [
+    "jupyter_install",
+    "jupyter_extensions",
+    "jupyter_build",
+    "lab",
+]
+ignore_fail = true
+
+[tool.poe.tasks.textidote] # https://github.com/sylvainhalle/textidote
+help = "Runs textidote to generate a report."
+shell = "textidote --ignore sh:002 --check en --output html ${latex_file} > report.html"
+args = [{ name = "latex_file", positional = true, multiple = false }]
+
+[tool.poe.tasks.time]
+help = "Displays the current date and time."
+shell = """
+from datetime import datetime
+
+now: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+print(f"Current date and time: {now}")
+"""
+interpreter = "python"
+
+[tool.poe.tasks.env]
+help = "Displays the current environment variables."
+shell = """
+import os
+from art import text2art
+
+banner = text2art("Environment", font="random-small")
+
+print(banner)
+for name, value in os.environ.items():
+    print(f"{name}: {value}")
+"""
+interpreter = "python"
+
+[tool.poe.tasks.clean]
+help = "Clean project files."
+shell = """
+import os
+import shututil
+from pathlib import Path
+
+remove = [
+
+]
+
+paths: list[Path] = [Path(path).resolve() for path in remove]
+
+for path in paths:
+    print(f"Cleaning {path}...")
+    try:
+        if path.exists():
+            if path.is_dir() and not path.is_symlink():
+                shutil.rmtree(path, ignore_errors=True, onerror=None)
+            else:
+                path.unlink()
+    except OSError as error:
+        print(f"Failed to remove {path}.")
+        print(f"Exception: {error}")
+"""
+interpreter = "python"

@@ -1,0 +1,3 @@
+!resources/fma
+resources/fma/*
+!resources/fma/.gitkeep

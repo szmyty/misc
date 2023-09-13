@@ -1,0 +1,30 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/21/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{
+        Pick up any classifier for supervised learning
+        (e.g. kNN, logistic regression, Naive Bayesian, etc.)
+    }
+
+    \subquestion{
+        Use this classifier to your dataset.
+        What is your accuracy and confusion matrix?
+    }
+
+    \answer{\jupynotex[16-18]{main.ipynb}}
+
+    \subquestion{Summarize your findings in a table below and discuss your results.}
+
+    \answer{\jupynotex[19-20]{main.ipynb}}
+
+\end{document}

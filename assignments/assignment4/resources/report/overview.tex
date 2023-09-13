@@ -1,0 +1,47 @@
+%! Author = alan
+%! Date = 4/8/23
+
+% Preamble
+\documentclass[../../assignment4.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    In this assignment, we will implement a number of linear models (including linear regression) to model relationships between different clinical features for heart failure in patients.
+
+    For the dataset, we use ``heart failure clinical records dataset`` at UCI: \par
+    \url{https://archive.ics.uci.edu/ml/datasets/Heart+failure+clinical+records}.
+
+    \textbf{Dataset Description: } From the website: ``This dataset contains the medical records of 299 patients who had heart failure, collected during their follow-up period, where each patient profile has 13 clinical features.``
+
+    These 13 features are:
+
+    \begin{enumerate}
+        \item age: age of the patient (years)
+        \item anaemia: decrease of red blood cells or hemoglobin (boolean)
+        \item high blood pressure: if the patient has hypertension (boolean)
+        \item creatinine phosphokinase (CPK): level of the CPK enzyme in the blood (mcg/L)
+        \item diabetes: if the patient has diabetes (boolean)
+        \item ejection fraction: percentage of blood leaving the heart at each contraction (percentage)
+        \item platelets: platelets in the blood (kiloplatelets/mL)
+        \item sex: woman or man (binary)
+        \item serum creatinine: level of serum creatinine in the blood (mg/dL)
+        \item serum sodium: level of serum sodium in the blood (mEq/L)
+        \item smoking: if the patient smokes or not (boolean)
+        \item time: follow-up periods (days)
+    \end{enumerate}
+
+    target death event: if the patient deceased (DEATH\_EVENT = 1) during the follow-up period (boolean)
+
+    We will focus on the following subset of four features:
+    \begin{enumerate}
+        \item creatinine phosphokinase
+        \item serum creatinine
+        \item serum sodium
+        \item platelets
+    \end{enumerate}
+    and try to establish a relationship between some of them using various linear models and their variants.
+
+    \newpage
+
+\end{document}

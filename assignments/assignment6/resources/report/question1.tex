@@ -1,0 +1,42 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/21/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{
+        Take the subset of the dataset containing your two class labels.
+        You will use random \var{$50/50$} splits for training and testing data.
+    }
+
+    \jupynotex[3-6]{main.ipynb}
+
+    \subquestion{
+        Implement a linear kernel SVM.
+        What is your accuracy and confusion matrix?
+    }
+
+    \answer{\jupynotex[7-9]{main.ipynb}}
+
+    \subquestion{
+        Implement a Gaussian kernel SVM.
+        What is your accuracy and confusion matrix?
+    }
+
+    \answer{\jupynotex[10-12]{main.ipynb}}
+
+    \subquestion{
+        Implement a polynomial kernel SVM of degree 3.
+        What is your accuracy and confusion matrix?
+    }
+
+    \answer{\jupynotex[13-15]{main.ipynb}}
+
+\end{document}

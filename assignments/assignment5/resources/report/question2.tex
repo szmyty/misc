@@ -1,0 +1,31 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/12/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{Use Naive Bayesian NB classifier to answer these questions:}
+
+    \subquestion{
+        Split your set \var{$50/50$}, train NB on \xtrain{} and predict class labels
+        in \xtest{}. \\ \textbf{Use for remainder of assignment/models.}
+    }
+
+    \answer{\jupynotex[7]{main.ipynb}}
+
+    \subquestion{What is the accuracy?}
+
+    \answer{\jupynotex[8]{main.ipynb}}
+
+    \subquestion{Compute the confusion matrix.}
+
+    \answer{\jupynotex[9]{main.ipynb}}
+
+\end{document}

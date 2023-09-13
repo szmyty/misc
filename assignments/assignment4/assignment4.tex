@@ -1,0 +1,173 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/08/23
+
+%! region Preamble.
+\documentclass[12pt, a4paper]{extarticle}
+
+%! region Latex Compiler Specific Configuration.
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\else
+\ifXeTeX
+\usepackage{fontspec}
+\setmainfont{Bitter}[
+    Path=./resources/fonts/Bitter/,
+    Scale=0.85,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
+]
+\else
+\usepackage{luatextra}
+\fi
+\defaultfontfeatures{Ligatures=TeX}
+\fi
+%! endregion
+
+%! region Packages
+\usepackage[a4paper, margin=2.9cm, headsep=10pt, headheight={61.24997pt}]{geometry}
+\usepackage{babel}
+\usepackage{float}
+\usepackage{lipsum}
+\usepackage{jupynotex}
+\usepackage[outputdir=../.cache/latex/out]{minted}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[obeyspaces,spaces]{url}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage[skip=5pt plus1pt, indent=0pt]{parskip}
+\usepackage{titlesec}
+\usepackage{tabularray}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xspace}
+\usepackage{polyglossia}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{graphicx}
+\usepackage{subfiles}
+\usepackage{titling}
+%! endregion
+
+%! region Document Configuration.
+% Set language.
+\setmainlanguage{english}
+
+% Setting graphics path to image/figures.
+\graphicspath {{resources/graphics/}}
+
+% Adjust the title up.
+\setlength{\droptitle}{-4em}
+%! endregion
+
+%! region Colors.
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+%! endregion
+
+%! region Styling
+% Set highlighting color.
+\sethlcolor{yellow}
+
+% Set spacing between table and caption.
+\captionsetup[table]{skip=8pt}
+
+% Style subsections.
+\titleformat{\subsection}
+{\normalfont\fontsize{12}{15}}{\thesubsection}{1em}{}
+
+% Python code styling.
+\lstset{frame=tb,
+    language=Python,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+}
+
+% Header and Footer Styles.
+\fancypagestyle{firstpage}
+{
+    \fancyhead[L]{}
+    \fancyhead[R]{ \includegraphics[width=2cm,height=2cm,keepaspectratio]{logo}}
+    \fancyfoot[R]{Page \thepage \hspace{1pt} of~\pageref{LastPage}}
+}
+
+\fancypagestyle{pages}
+{
+    \fancyhead{}
+    \fancyfoot[R]{Page \thepage \hspace{1pt} of~\pageref{LastPage}}
+    \addtolength{\topmargin}{-16.34447pt}
+}
+%! endregion
+
+%! region Commands/Variables
+\renewcommand{\UrlFont}{\bfseries}
+\newcommand{\var}[1]{\texorpdfstring{#1}\xspace}
+\newcommand{\answer}[1]{\textbf{Answer: }\par#1}
+%! endregion
+
+\author{Alan Szmyt}
+
+\title{MET CS677 Data Science with Python \\ Assignment 4 }
+
+%! endregion
+\begin{document}
+
+    % Show all references from bib file without needing to cite them.
+    \nocite{*}
+
+    % Create title from the title macro.
+    \maketitle
+
+    % Use the fancy style for first page only and switch styles for the rest.
+    \thispagestyle{firstpage}
+
+    % Overview of the assignment.
+    \subfile{resources/report/overview}
+
+    % Style to set for the rest of the pages.
+    \pagestyle{pages}
+
+    % Question #1 section.
+    \subfile{resources/report/question1}
+
+    % Question #2 section.
+    \subfile{resources/report/question2}
+
+    % Question #3 section.
+    \subfile{resources/report/question3}
+
+    %! region Bibliography
+    \bibliography{resources/report/references}
+    \bibliographystyle{plain}
+    %! endregion
+
+\end{document}

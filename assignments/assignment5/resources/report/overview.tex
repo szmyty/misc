@@ -1,0 +1,58 @@
+%! Author = alan
+%! Date = 4/12/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    In this assignment, we will compare Naive Bayesian and Decision Tree Classification for identifying normal \versus{} non-normal fetus status based on fetal cardiograms.
+
+    For the dataset, we use ``fetal cardiotocography data set`` at UCI: \par
+    \url{https://archive.ics.uci.edu/ml/datasets/Cardiotocography}.
+
+    \textbf{Dataset Description: } From the website: ``2126 fetal cardiotocograms (CTGs) were automatically processed and the respective diagnostic features measured.
+    The CTGs were also classified by three expert obstetricians and a consensus classification label assigned to each of them.
+    Classification was both with respect to a morphologic pattern (A, B, C. \dots) and to a fetal state (N, S, P).
+    Therefore, the dataset can be used either for 10-class or 3-class experiments.``
+
+    We will focus on the ``fetal state``.
+    We will combine labels ``S`` (suspect) and ``P`` (pathological) into one class ``A`` (abnormal).
+    We will focus on predicting ``N`` (normal) \versus{} ``A`` (``Abnormal``).
+    For a detailed description of features, please visit the above website.
+
+    The data is an Excel (not csv) file.
+    For ways to process Excel files in Python, see \url{https://www.python-excel.org/}.
+
+    You will use the following subset of 12 numeric features:
+
+    \begin{enumerate}
+        \item LB - FHR baseline (beats per minute).
+        \item ASTV - Percentage of time with abnormal short term variability.
+        \item MSTV - Mean value of short term variability.
+        \item ALTV - Percentage of time with abnormal long term variability.
+        \item MLTV - Mean value of long term variability.
+        \item Width - Width of FHR histogram.
+        \item Min - Minimum of FHR histogram.
+        \item Max - Maximum of FHR histogram.
+        \item Mode - Histogram mode.
+        \item Mean - Histogram mean.
+        \item Median - Histogram median.
+        \item Variance - Histogram variance.
+    \end{enumerate}
+
+    \newpage
+
+    You will consider the following set of 4 features depending on your facilitator group.
+
+    \begin{itemize}
+        \item Group 1: LB, ALTV, Min, Mean
+        \item Group 2: ASTV, MLTV, Max, Median
+        \item Group 3: MSTV, Width, Mode, Variance
+        \item \hl{Group 4: LB, MLTV, Width, Variance}
+    \end{itemize}
+
+    For each of the questions below, these would be your features.
+
+\end{document}

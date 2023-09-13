@@ -1,0 +1,22 @@
+cache-dir = ".cache/pypoetry"
+
+[virtualenvs]
+create = true
+in-project = true
+prefer-active-python = false
+prompt = "{project_name}-py{python_version}"
+
+[virtualenvs.options]
+always-copy = true
+no-pip = true
+no-setuptools = true
+system-site-packages = false
+
+[installer]
+parallel = true
+max-workers = 1
+no-binary = false
+modern-installation = true
+
+[experimental]
+system-git-client = false

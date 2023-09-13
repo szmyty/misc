@@ -1,0 +1,59 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/08/23
+
+% Preamble
+\documentclass[../../assignment4.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \section{Question 2: {\var{\normalfont\normalsize{In this question you will compare a number of different models using linear systems (including linear regression).}}}} \label{sec:question2}
+
+    You choose one feature \var{$X$} as independent variable \var{$X$} and another feature \var{$Y$} as dependent.
+    Your choice of \var{$X$} and \var{$Y$} will depend on your facilitator group as follows:
+
+    \begin{enumerate}
+        \item Group 1: \var{$X$}: creatinine phosphokinase (CPK), \var{$Y$}: platelets
+        \item Group 2: \var{$X$}: platelets, \var{$Y$}: serum sodium
+        \item Group 3: \var{$X$}: serum sodium, \var{$Y$}: serum creatinine
+        \item \hl{Group 4: $X$: platelets, $Y$: serum creatinine}
+    \end{enumerate}
+
+    We will now look for the best model (from the list below) that best explains the relationship for surviving and deceased patients.
+    Consider surviving patients (DEATH\_EVENT = 0).
+    Extract the corresponding columns for \var{$X$} and \var{$Y$}.
+    For each of the models, below we will take a \var{$50/50$} split, fit model with \var{$X_{train}$} and predict \var{$Y_{test}$} using \var{$X_{test}$}.
+    From the predicted values \var{$Pred(y_{i})$} we compute the residuals $r_{i}=y_{i}-Pred(y_{i})$.
+    We can then estimate the loss function (SSE sum of the squared residuals).
+
+    \begin{align*} \label{sse_eqn}
+    L = \sum_{x_{i}\epsilon{X_{test}}}^{}{e_{i}}^{2}
+    \end{align*}
+
+    You do the same analysis for deceased patients.
+    You will consider the following models for both deceased and surviving patients:
+
+    \begin{enumerate}
+        \item $y = ax + b$ (simple linear regression)
+        \item $y = ax^{2} + bx + c$ (quadratic)
+        \item $y = ax^{3} + bx^{2} + cx + d$ (cubic spline)
+        \item $y = a\log{x} + b$ (GLM - generalized linear model)
+        \item $\log{y} = a\log{x} + b$ (GLM - generalized linear model)
+    \end{enumerate}
+
+    For each of the models below, you will do the following (for both deceased and surviving patients)
+    \begin{enumerate}[(a)]
+        \item Fit the model on $X_{train}$.
+        \item Print the weights $(a, b, \dots)$.
+        \item Compute predicted values using $X_{test}$.
+        \item Plot (if possible) predicted and actual values in $X_{test}$.
+        \item Compute (and print) the corresponding loss function.
+    \end{enumerate}
+
+    \answer{\jupynotex[14-24]{assignment4.ipynb}}
+
+\end{document}

@@ -1,0 +1,55 @@
+%! Author = alan
+%! Date = 4/21/23
+
+% Preamble
+\documentclass[../../project.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    For my final project, I explored music genre classification using different machine
+    learning models by analyzing and comparing them against a small dataset of Spotify
+    audio tracks.
+
+    For the dataset, I created a small dataset using Spotify's web API endpoints.
+    I used their API to download track data for two genres: \textbf{Metal} and
+    \textbf{Country}.
+
+    I gathered track data from two heavy metal playlists:
+    \begin{enumerate}
+        \item \url{https://open.spotify.com/playlist/37i9dQZF1DX9qNs32fujYe}
+        \item \url{https://open.spotify.com/playlist/37i9dQZF1DWWOaP4H0w5b0}
+    \end{enumerate}
+
+    and two country playlists:
+    \begin{enumerate}
+        \item \url{https://open.spotify.com/playlist/37i9dQZF1DWZBCPUIUs2iR}
+        \item \url{https://open.spotify.com/playlist/37i9dQZF1DXadasIcsfbqh}
+    \end{enumerate}
+
+    \textbf{Dataset Description: } The dataset consists of 200 country tracks and 250
+    heavy metal tracks.
+
+    There are 13 (continuous) features: \var{$F=\{f_1,\dots,f_{13}\}$} and a genre class label
+    \var{$L$} (Metal: 0, Country: 1).
+
+    \begin{enumerate}
+        \item \var{$f_1$}: acousticness
+        \item \var{$f_2$}: danceability
+        \item \var{$f_3$}: energy
+        \item \var{$f_4$}: instrumentalness
+        \item \var{$f_5$}: key
+        \item \var{$f_6$}: liveness
+        \item \var{$f_7$}: loudness
+        \item \var{$f_8$}: speechiness
+        \item \var{$f_9$}: tempo
+        \item \var{$f_{10}$}: time\_signature
+        \item \var{$f_{11}$}: valence
+        \item \var{$f_{12}$}: duration
+        \item \var{$f_{13}$}: popularity
+        \item \var{$L$}: genre (Metal: 0, Country: 1)
+    \end{enumerate}
+
+    \newpage
+
+\end{document}

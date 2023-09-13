@@ -1,0 +1,48 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/12/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{
+        Recall that there are two hyperparameters in the random forest classifier:
+        \var{$N$}- number of (sub)trees to use and \var{$d$} - max depth of each subtree.
+        \\ Use Random Forest classifier to answer these questions.
+    }
+
+    \subquestion{
+        Take \var{$N=1,\dots,10$} and \var{$d=1,2,\dots,5$}. For each value of \var{$N$}
+        and \var{$d$}, use your data in \xtrain{} and \xtest{}, construct a
+        random tree classifier (use ``entropy`` as splitting criteria). Train your
+        classifier on \xtrain{} and compute the error rate for \xtest{}.
+    }
+
+    \answer{\jupynotex[13]{main.ipynb}}
+
+    \subquestion{
+        Plot your error rates and find the best combination of \var{$N$} and \var{$d$}.
+    }
+
+    \answer{\jupynotex[14-15]{main.ipynb}}
+
+    \subquestion{
+        What is the accuracy for the best combination of \var{$N$} and \var{$d$}.
+    }
+
+    \answer{\jupynotex[16]{main.ipynb}}
+
+    \subquestion{
+        Compute the confusion matrix using the best combination of
+        \var{$N$} and \var{$d$}.
+    }
+
+    \answer{\jupynotex[17]{main.ipynb}}
+
+\end{document}

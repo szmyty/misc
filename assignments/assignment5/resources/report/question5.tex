@@ -1,0 +1,25 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/12/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{
+        Summarize your results for Naive Bayesian,
+        decision tree and random forest in a table below and discuss your findings.
+    }
+
+    \answer{\jupynotex[18-20]{main.ipynb}}
+
+    After arranging the statistics of each classifier in the table, it stands out that the random forest classifier has a very high recall value compared to the others.
+    All the classifiers have relatively high accuracies (all above 70\%), but random forest performed the best.
+    The decision tree's accuracy was pretty high as well, but knowing that the decision tree is more unstable than the random forest, that accuracy value would fluctuate with different data.
+
+\end{document}

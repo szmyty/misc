@@ -1,0 +1,31 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/12/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{Use Decision Tree to answer these questions:}
+
+    \subquestion{
+        Using your set \var{$50/50$}, train DT on \xtrain{} and predict class labels
+        in \xtest{}.
+    }
+
+    \answer{\jupynotex[10]{main.ipynb}}
+
+    \subquestion{What is the accuracy?}
+
+    \answer{\jupynotex[11]{main.ipynb}}
+
+    \subquestion{Compute the confusion matrix.}
+
+    \answer{\jupynotex[12]{main.ipynb}}
+
+\end{document}

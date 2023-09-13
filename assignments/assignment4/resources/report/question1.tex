@@ -1,0 +1,43 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/08/23
+
+% Preamble
+\documentclass[../../assignment4.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \section{Question 1} \label{sec:question1}
+
+    \jupynotex[3-5]{assignment4.ipynb}
+
+    \subsection{Load the data into a Pandas dataframe. Extract two dataframes with the above 4 features: df\_0 for surviving patients (DEATH\_EVENT = 0) and df\_1 for deceased patients (DEATH\_EVENT = 1)} \label{subsec:question1.1}
+
+    \answer{\jupynotex[6]{assignment4.ipynb}}
+
+    \subsection{For each dataset, construct the visual representations of the corresponding correlation matrices \var{$M_0$} (from df\_0) and \var{$M_1$} (from df\_1) and save the plots into two separate files} \label{subsec:question1.2}
+
+    \answer{\jupynotex[7-8]{assignment4.ipynb}}
+
+    \subsection{Examine your correlation matrix plots visually and answer the following} \label{subsec:question1.3}
+
+    \answer{\jupynotex[9]{assignment4.ipynb}}
+
+    \begin{enumerate}[(a)]
+        \item Which features have the highest correlation for surviving patients?
+        \item[] \answer{\jupynotex[10]{assignment4.ipynb}}
+        \item Which features have the lowest correlation for surviving patients?
+        \item[] \answer{\jupynotex[11]{assignment4.ipynb}}
+        \item Which features have the highest correlation for deceased patients?
+        \item[] \answer{\jupynotex[12]{assignment4.ipynb}}
+        \item Which features have the lowest correlation for deceased patients?
+        \item[] \answer{\jupynotex[13]{assignment4.ipynb}}
+        \item Are results the same for both cases?
+        \item[] \answer{The results are not the same for both cases.}
+    \end{enumerate}
+
+\end{document}

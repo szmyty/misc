@@ -1,0 +1,74 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/21/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{Take the original dataset with all 3 class labels.}
+
+    \subquestion{
+        For \var{$k=1,2,\dots,8$} use k-means clustering with random initialization
+        and defaults. Compute and plot distortion \versus{} \var{$k$}.
+        Use the ``knee`` method to find the best \var{$k$}.
+    }
+
+    \answer{\jupynotex[21-23]{main.ipynb}}
+
+    \subquestion{
+        Re-run your clustering with best \var{$k$} clusters. Pick two features
+        \var{$f_i$} and \var{$f_j$} at random (using python, of course) and plot your
+        datapoints (different color for each class and centroids) using \var{$f_i$} and
+        \var{$f_j$} as axis. Examine your plot. Are there any interesting patterns?
+    }
+
+    \answer{\jupynotex[24-26]{main.ipynb}}
+
+    After examining the plot, it seems that the Canadian seeds have small widths and are
+    asymmetrical.
+    The Kama seeds have more symmetry and a large range of widths.
+    The Rose seeds have a higher width overall and are asymmetrical.
+
+    \subquestion{
+        For each cluster, assign a cluster label based on the majority class of items.
+        For example, if cluster \var{$C_i$} contains 45\% of class 1 (``Kama`` wheat),
+        35\% of class 2 (``Rosa`` wheat) and 20\% of class 3 (``Canadian`` wheat),
+        then this cluster \var{$C_i$} is assigned label 1. For each cluster, print out
+        its centroid and assigned label.
+    }
+
+    \answer{\jupynotex[27]{main.ipynb}}
+
+    \subquestion{
+        Consider the following multi-label classifier. Take the largest 3 clusters with
+        label 1, 2, and 3 respectively. Let us call these clusters \var{$A$},
+        \var{$B$}, and \var{$C$}. For each of these clusters, you know their means
+        (centroids): \var{$\mu{(A)}$}, \var{$\mu{(B)}$}, and \var{$\mu{(C)}$}. We now
+        consider the following procedure (conceptually analogous to nearest neighbor
+        with \var{$k=1$}): for every point \var{$x$} in your dataset, assign a label
+        based on the label on the nearest (using Euclidean distance) centroid of
+        \var{$A$}, \var{$B$}, or \var{$C$}. In other words, if \var{$x$} is closest to
+        center of cluster \var{$A$}, you assign it label 1. If \var{$x$} is closest to
+        center of cluster \var{$B$}, you assign it class 2. Finally, if \var{$x$} is
+        closest to center of cluster \var{$C$}, you assign it class 3. What is the
+        overall accuracy of this new classifier when applied to the complete data set?
+    }
+
+    \answer{\jupynotex[28-29]{main.ipynb}}
+
+    \subquestion{
+        Take this new classifier and consider the same two labels that you used for SVM.
+        What is your accuracy and confusion matrix? How does your new classifier
+        (from task 4) compare with any classifiers listed in the table for question 2
+        above?
+    }
+
+    \answer{\jupynotex[30-33]{main.ipynb}}
+
+\end{document}

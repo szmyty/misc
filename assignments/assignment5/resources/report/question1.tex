@@ -1,0 +1,32 @@
+%! Compiler = xelatex --shell-escape
+%! BibTeX Compiler = biber
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = Alan Szmyt
+%! Date = 4/12/23
+
+% Preamble
+\documentclass[../../main.tex]{subfiles}
+
+% Document
+\begin{document}
+
+    \question{}
+
+    \jupynotex[3-4]{main.ipynb}
+
+    \subquestion{
+        Load the Excel (``raw data`` worksheet) data into Pandas dataframe.
+    }
+
+    \answer{\jupynotex[5]{main.ipynb}}
+
+    \subquestion{
+        Combine NSP labels into two groups: N (normal - these labels are assigned) and
+        Abnormal (everything else). We will use existing class 1 for normal and define
+        class 0 for abnormal.
+    }
+
+    \answer{\jupynotex[6]{main.ipynb}}
+
+\end{document}

@@ -1,0 +1,349 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8
+%! Author = alan
+%! Date = 3/31/23
+
+% Preamble.
+\documentclass[12pt, a4paper]{extarticle}
+
+% Packages.
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\else
+\ifXeTeX
+\usepackage{fontspec}
+\setmainfont{Bitter}[
+    Path=./resources/fonts/Bitter/,
+    Scale=0.85,
+    Extension = .ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
+]
+\else
+\usepackage{luatextra}
+\fi
+\defaultfontfeatures{Ligatures=TeX}
+\fi
+\usepackage[a4paper, margin=3cm, headsep=10pt, headheight={61.24997pt}]{geometry}
+\usepackage{babel}
+\usepackage{float}
+\usepackage{lipsum}
+\usepackage{jupynotex}
+\usepackage{minted}
+\usepackage{amssymb,latexsym,amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[obeyspaces,spaces]{url}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage[skip=5pt plus1pt, indent=0pt]{parskip}
+\usepackage{titlesec}
+\usepackage{tabularray}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xspace}
+\usepackage{polyglossia}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
+\usepackage{xcolor}
+\usepackage{graphicx}
+%\usepackage[style=apa, sortcites=true, sorting=nyt, hyperref=true, backend=biber, uniquelist=true, uniquename=false, natbib=true]{biblatex}
+
+\usepackage{natbib} %Bibliography.
+\setcitestyle{numbers} %Cite as numbers or author-year.
+\bibliographystyle{vancouver} %Reference style.
+
+% Set language.
+\setmainlanguage{english}
+
+% Bibliography reference file.
+%\addbibresource{resources/references.bib}
+
+% Set spacing between table and caption.
+\captionsetup[table]{skip=8pt}
+
+% Style subsections.
+\titleformat{\subsection}
+{\normalfont\fontsize{12}{15}}{\thesubsection}{1em}{}
+
+% Colors.
+\definecolor{legitimate}{RGB}{84,178,84}
+\definecolor{counterfeit}{RGB}{228,61,48}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\DeclareTextFontCommand{\legitimate}{\color{legitimate}\bfseries}
+\DeclareTextFontCommand{\counterfeit}{\color{counterfeit}\bfseries}
+
+% Setting graphics path to image/figures.
+\graphicspath {{resources/}}
+
+% Variables.
+\newcommand{\filepath}[1]{\texorpdfstring{\protect\path{#1}}\xspace}
+\newcommand{\answer}[1]{\textbf{Answer: }\par#1}
+\newcommand{\knn}{\texorpdfstring{$k$-NN}}
+\newcommand{\xtest}{\texorpdfstring{$X_{test}$}}
+\newcommand{\xtrain}{\texorpdfstring{$X_{train}$}}
+\newcommand{\poslabel}{\texorpdfstring{\legitimate{$``+``$}}}
+\newcommand{\neglabel}{\texorpdfstring{\counterfeit{$``-``$}}}
+\newcommand{\var}[1]{\texorpdfstring{#1}\xspace}
+\newcommand{\fixture}[1]{\texorpdfstring{\ensuremath{f_{#1}}}\xspace}
+\newcommand{\fmu}[1]{\texorpdfstring{\ensuremath{\mu({#1})}}\xspace}
+\newcommand{\fsigma}[1]{\texorpdfstring{\ensuremath{\sigma({#1})}}\xspace}
+
+% Python code styling.
+\lstset{frame=tb,
+    language=Python,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+}
+
+\author{Alan Szmyt}
+
+% Header and Footer Styles.
+\fancypagestyle{firstpage}
+{
+    \fancyhead[L]{}
+    \fancyhead[R]{ \includegraphics[width=2cm,height=2cm,keepaspectratio]{logo}}
+    \fancyfoot[R]{Page \thepage \hspace{1pt} of~\pageref{LastPage}}
+}
+
+\fancypagestyle{pages}
+{
+    \fancyhead{}
+    \fancyfoot[R]{Page \thepage \hspace{1pt} of~\pageref{LastPage}}
+    \addtolength{\topmargin}{-16.34447pt}
+}
+
+\title{MET CS677 Data Science with Python \\ Assignment 3 }
+
+\begin{document}
+
+    \nocite{*}
+    
+    \maketitle
+
+    \thispagestyle{firstpage}
+
+    \renewcommand{\UrlFont}{\bfseries}
+
+    In this assignment, we will implement \knn{} and logistic regression classifiers to detect ``fake`` banknotes and analyze the comparative importance of features in predicting accuracy.
+
+    For the dataset, we use ``banknote authentication dataset`` from the machine learning depository at UCI: \par
+    \url{https://archive.ics.uci.edu/ml/datasets/banknote+authentication}.
+
+    \textbf{Dataset Description: } From the website: ``This dataset contains 1,372 examples of both fake and real banknotes.
+    Data were extracted from images that were taken from genuine and forged banknote-like specimens.
+    For digitization, an industrial camera usually used for print inspection was used.
+    The final images have 400 x 400 pixels.
+    Due to the object lens and distance to the investigated object gray-scale pictures with a resolution of about 660 dpi were gained.
+    Wavelet Transform tool were used to extract features from images.``
+
+    \begin{enumerate}
+        \item \fixture{1} - variance of a wavelet transformed image.
+        \item \fixture{2} - skewness of a wavelet transformed image.
+        \item \fixture{3} - kurtosis of a wavelet transformed image.
+        \item \fixture{4} - entropy of image.
+        \item class (integer)
+    \end{enumerate}
+
+    In other words, assume that you have a machine that examines a banknote and computes 4 attributes (step 1).
+    Then each banknote is examined by a much more expensive machine and/or by human expert(s) and classified as fake or real (step 2).
+    The second step is very time-consuming and expensive.
+    You want to build a classifier that would give your results after step 1 only.
+
+    We assume that class 0 are good banknotes.
+    We will use color \legitimate{``green``} or \var{$``+``$} for legitimate banknotes.
+    Class 1 are assumed to be fake banknotes, and we will use color \counterfeit{``red``} or \var{$``-``$} for counterfeit banknotes.
+    These are the ``true`` labels.
+
+    \newpage
+
+    \pagestyle{pages}
+
+    % \textbf{Python Setup: }
+
+    \jupynotex[2-3]{assignment3.ipynb}
+
+    \section{Question 1} \label{sec:question1}
+
+    \subsection{Load the data into a dataframe and add column ``color``. For each class 0, this should contain ``green`` and for each class 1 it should contain ``red``.} \label{subsec:question1.1}
+
+    \answer{\jupynotex[4]{assignment3.ipynb}}
+
+    \subsection{For each class and for each fixture \fixture{1}, \fixture{2}, \fixture{3}, \fixture{4}, compute its mean \fmu{} and standard deviation \fsigma{}. Round the results to 2 decimal places and summarize them in a table as show below:} \label{subsec:question1.2}
+
+    \answer{\jupynotex[5]{assignment3.ipynb}}
+
+    \subsection{Examine your table. Are there any obvious patterns in the distribution of banknote in each class.} \label{subsec:question1.3}
+
+    \answer{The most notable pattern that I observed right away is the difference between the mean values for \fixture{1} (variance) and \fixture{2} (skewness) and see that the standard deviation values for both are hight aswell. \fixture{2} also stands out because it has the highest standard deviation. Also for the \fixture{4} (entropy). The values are very close for both good and fake banknotes, so that may be hard to know the difference based upon entropy alone.}
+
+    \section{Question 2} \label{sec:question2}
+
+    \subsection{Split your dataset \var{$X$} into training \xtrain{} and \xtest{} parts (50/50 split). Using ``pairplot`` from the seaborn package, plot pairwise relationships in \xtrain{} separately for class 0 and class 1. Save your results into 2 pdf files \filepath{``good_bills.pdf``} and \filepath{``fake_bills.pdf``}} \label{subsec:question2.1}
+
+    \answer{\jupynotex[6-9]{assignment3.ipynb}}
+
+    \subsection{Visually examine your results. Come up with three simple comparisons that you think may be sufficient to detect a fake bill. For example, your classifier may look like this:} \label{subsec:question2.2}
+
+    \begin{lstlisting}[label={lst:example_classifier}]
+# assume you are examining a bill
+# with features f_1, f_2, f_3, and f_4
+# your rule may look like this:
+if (f_1 > 4) and (f_2 > 8) and (f_4 < 25):
+    x = "good"
+else:
+    x = "fake"
+    \end{lstlisting}
+
+    \answer{\jupynotex[10]{assignment3.ipynb}}
+
+    \subsection{Apply your simple classifier to \xtest{} and compute predicted class labels.} \label{subsec:question2.3}
+
+    \answer{\jupynotex[11]{assignment3.ipynb}}
+
+    \subsection{Comparing your predicted class labels with true labels, compute the following:} \label{subsec:question2.4}
+
+    \begin{enumerate}[(a)]
+        \item TP - true positives (your predicted label is \poslabel{} and true label is \poslabel{})
+        \item FP - false positives (your predicted label is \poslabel{} but true label is \neglabel{})
+        \item TN - true negatives (your predicted label is \neglabel{} and true label is \neglabel{})
+        \item FN - false negatives (your predicted label is \neglabel{} but true label is \poslabel{})
+        \item TPR = TP/(TP + FN) - true positive rate.
+        This is the fraction of positive labels that you predicted correctly.
+        This is also called sensitivity, recall or hit rate.
+        \item TNR = TN/(TN + FP) - true negative rate.
+        This is the fraction of negative labels that you predicted correctly.
+        This is also called specificity or selectivity.
+    \end{enumerate}
+    
+    \answer{\jupynotex[12]{assignment3.ipynb}}
+
+    \subsection{Summarize your findings in the table as shown below:} \label{subsec:question2.5}
+
+    \answer{\jupynotex[13]{assignment3.ipynb}}
+
+    \subsection{Does your simple classifier give you higher accuracy on identifying ``fake`` bills or ``real`` bills. Is your accuracy better than 50\% (``coin`` flipping)?} \label{subsec:question2.6}
+
+    \answer{\jupynotex[14]{assignment3.ipynb}}
+
+    \section{Question 3: {\var{\normalfont\normalsize{(use \knn{} classifier using sklearn library)}}}} \label{sec:question3}
+
+    \subsection{Take \var{$k = 3,5,7,9,11$}. Use the same \xtrain{} and \xtest{} as before. For each \var{$k$}, train your \knn{} classifier on \xtrain{} and compute its accuracy for \xtest{}.} \label{subsec:question3.1}
+
+    \answer{\jupynotex[15]{assignment3.ipynb}}
+
+    \subsection{Plot a graph showing the accuracy. On \var{$x$} axis you plot \var{$k$} and on \var{$y$}-axis you plot accuracy. What is the optimal value \var{$k^*$} of \var{$k$}?} \label{subsec:question3.2}
+
+    \answer{\jupynotex[16-17]{assignment3.ipynb}}
+    
+    The optimal value \var{$k^*$} should be the highest \var{$k$} that has the least amount of error.
+    Because this dataset is well formatted, the \knn{} classifier was successful for all \var{$k$} values, so I will pick \var{$k=9$} as my \var{$k^*$}.
+    Some additional readings point to that choosing an optimal \var{$k$} value can be done using cross-validation techniques.
+    
+    Reference: \par
+    \url{https://neptune.ai/blog/cross-validation-in-machine-learning-how-to-do-it-right}. 
+
+    \subsection{Use the optimal value \var{$k^*$} to compute performance measures and summarize them in the table.} \label{subsec:question3.3}
+
+    \answer{\jupynotex[18-19]{assignment3.ipynb}}
+
+    \subsection{Is your \knn{} classifier better than your simple classifier for any of the measures from the previous table?} \label{subsec:question3.4}
+
+    \answer{Yes the \knn{} classifier performed better for all measures with 100\% accuracy.}
+
+    \subsection{Consider a bill \var{$x$} that contains the last 4 digits of your BUID as feature values. What is the class label predicted for this bill by your simple classifier? What is the label for this bill predicted by \knn{} using the best \var{$k^*$}?} \label{subsec:question3.5}
+
+    \answer{\jupynotex[20]{assignment3.ipynb}}
+
+    \section{Question 4: {\normalfont\normalsize{One of the fundamental questions in machine learning is ``feature selection``. We try to come up with a least number of features and still retain good accuracy. The natural question is whether some of the features are important or can be dropped.}}} \label{sec:question4}
+
+    \subsection{Take your best value \var{$k^*$}. For each of the four features \var{$f_1,\dots,f_4$}, drop that feature from both \xtrain{} and \xtest{}. Train your classifier on the ``truncated`` \xtrain{} and predict labels on \xtest{} using just 3 remaining features. You will repeat this for 4 cases: (1) just \fixture{1} missing, (2) just \fixture{2} (3) just \fixture{3} missing and (4) just \fixture{4} is missing. Compute the accuracy for each of these scenarios.} \label{subsec:question4.1}
+
+    \answer{\jupynotex[21]{assignment3.ipynb}}
+
+    \subsection{Did accuracy increase in any of the 4 cases compared with accuracy when all 4 features are used?} \label{subsec:question4.2}
+
+    \answer{Accuracy decreased slightly for each case. \knn{} accuracy was 100\%, so they could only have been equal to or worse.}
+
+    \subsection{Which feature, when removed, contributed the most to loss of accuracy?} \label{subsec:question4.3}
+
+    \answer{When \fixture{1} was removed, the accuracy dropped the most by about 6\%}
+
+    \subsection{Which feature, when removed, contributed the least to loss of accuracy?} \label{subsec:question4.4}
+
+    \answer{When \fixture{4} was removed, the accuracy dropped the least, still remaining above 99\%. This aligns with the observation from earlier about entropy not having much of an effect on the pairwise differences.}
+
+
+    \section{Question 5:  {\normalfont\normalsize{(use logistic regression classifier using sklearn library)}}} \label{sec:question5}
+
+    \subsection{Use the same \xtrain{} and \xtest{} as before. Train your logistic regression classifier on \xtrain{} and compute its accuracy for \xtest{}.} \label{subsec:question5.1}
+
+    \answer{\jupynotex[22]{assignment3.ipynb}}
+
+    \subsection{Summarize your performance measures in the table.} \label{subsec:question5.2}
+
+    \answer{\jupynotex[22-24]{assignment3.ipynb}}
+
+    \subsection{Is your logistic regression better than your simple classifier for any of the measures from the previous table?} \label{subsec:question5.3}
+
+    \answer{}
+
+    \subsection{Is your logistic regression better than you \knn{} classifier (using the best \var{$k^*$}) for any of the measures from the previous table?} \label{subsec:question5.4}
+
+    \answer{Yes, the logistic regression performed better at avoiding false positives much better than the simple classifier. The true positives were slightly lower than the simple classifier.}
+
+    \subsection{Consider a bill \var{$x$} that contains the last 4 digits of your BUID as feature values. What is the class label predicted for this bill \var{$x$} by logistic regression? Is it the same label as predicted by \knn{}?} \label{subsec:question5.5}
+
+    \answer{\jupynotex[25]{assignment3.ipynb}}
+
+    \section{Question 6: {\normalfont\normalsize{We will investigate change in accuracy when removing one feature. This is similar to question 4, but now we use logistic regression.}}} \label{sec:question6}
+
+    \answer{}
+
+    \subsection{For each of the four features \var{$f_1,\dots,f_4$} drop that feature from both \xtrain{} and \xtest{}. Train your logistic regression classifier on the ``truncated`` \xtrain{} and predict labels on \xtest{} using just 3 remaining features. You will repeat this for 4 cases: (1) just \fixture{1} is missing, (2) just \fixture{2} is missing, (3) just \fixture{3} is missing, and (4) just \fixture{4} is missing. Compute the accuracy for each of these scenarios.} \label{subsec:question6.1}
+
+    \answer{\jupynotex[26]{assignment3.ipynb}}
+
+    \subsection{Did accuracy increase in any of the 4 cases compared with accuracy when all 4 features are used?} \label{subsec:question6.2}
+
+    \answer{The accuracy didn't increase when dropping any feature, but when dropping \fixture{4}, there was no change in accuracy.}
+
+    \subsection{Which feature, when removed, contributed the most to loss of accuracy?} \label{subsec:question6.3}
+
+    \answer{Dropping \fixture{1} had the most loss of accuracy going down to 79\%.}
+
+    \subsection{Which feature, when removed, contributed the least to loss of accuracy?} \label{subsec:question6.4}
+
+    \answer{When dropping \fixture{4}, there was no change in accuracy.}
+
+    \subsection{Is relative significance of features the same as you obtained using \knn{}?} \label{subsec:question6.5}
+
+    \answer{Yes, all fixtures \var{$f_1,\dots,f_4$} had the same impact relatively to \knn{}. The impact of dropping the features had much more of an impact on logistic regression though.}
+
+    \newpage
+    \onehalfspacing
+
+    \bibliography{resources/references}
+%    \printbibliography
+
+\end{document} 
